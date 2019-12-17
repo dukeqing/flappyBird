@@ -9,7 +9,8 @@ export class Main{
     constructor(){
         console.log("Main执行了");
         // 获取canvas
-        this.canvas = document.getElementById('game');
+        // this.canvas = document.getElementById('game');
+        this.canvas = wx.createCanvas();
         this.ctx = this.canvas.getContext('2d');
         // 初始化资源加载器
         this.loader = new ResourceLoader();
@@ -37,6 +38,7 @@ export class Main{
     }
     // 初始化游戏数据
     init(){
+        this.director.isGameOver = false;
         this.dataStore
                 .put('background',new Background())
                 .put('land',new Land())
@@ -47,10 +49,11 @@ export class Main{
         this.director.run();
     }
     addClick(){
-        this.canvas.addEventListener('touchstart',e=>{
+        // this.canvas.addEventListener('touchstart',e=>{
+          wx.ontouchStart(e=>{
             // 点击事件有两个效果
-            //1. 游戏结束m点击重新开始
-            //2. 游戏结束,点击小鸟向上一段距离
+            //1. 游戏结束,点击重新开始
+            //2. 游戏运行,点击小鸟向上一段距离
             if(this.director.isGameOver){
                 // 游戏结束
                 this.init();
